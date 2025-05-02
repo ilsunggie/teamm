@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tҽαɱ</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #470312; color: #f5f5f5; padding: 2em; }
+    .hidden { display: none; }
+    .admin-panel { background: #2e1111; padding: 1em; margin-top: 2em; border-radius: 8px; }
+    input, select, button { padding: 0.5em; margin-top: 1em; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <h1>¡𝕭𝖎𝖊𝖓𝖛𝖊𝖓𝖎𝖉@!</h1>
+  <p>𝓡𝓮𝓰𝓲𝓼𝓽𝓻𝓪𝓽𝓮, 𝓹𝓸𝓻 𝓯𝓪𝓿𝓸𝓻 🖤</p>
+
+  <div id="register">
+    <input type="text" id="characterName" placeholder="𝑛𝑜𝑚𝑏𝑟𝑒 𝑑𝑒 𝑡𝑢 𝑝𝑒𝑟𝑠𝑜𝑛𝑎𝑗𝑒">
+    <button onclick="registerCharacter()">яєgιѕтяαтє</button>
+  </div>
+
+  <div id="profile" class="hidden">
+    <h3>🧾 𝕿𝖚 𝖕𝖊𝖗𝖋𝖎𝖑</h3>
+    <p><strong>𝖓𝖔𝖒𝖇𝖗𝖊 :</strong> <span id="profileName"></span></p>
+    <p><strong>𝖈𝖆𝖘𝖆𝖉𝖔 𝖈𝖔𝖓 :</strong> <span id="partner"></span></p>
+    <p><strong>𝖗𝖔𝖑 𝖉𝖊 𝖒𝖆𝖋𝖎𝖆 :</strong> <span id="mafiaRole"></span></p>
+    <p><strong>𝖗𝖔𝖑 𝖊𝖓 𝖑𝖆 𝖚𝖓𝖎𝖛𝖊𝖗𝖘𝖎𝖉𝖆𝖉 :</strong> <span id="uniRole"></span></p>
+  </div>
+
+  <hr>
+
+  <div>
+    <h3>🔐 𝓞𝓝𝓛𝓨 𝓐𝓓𝓜𝓘𝓝𝓢</h3>
+    <input type="password" id="adminPass" placeholder="ƈσɳƚɾαʂҽñα">
+    <button onclick="loginAdmin()">ιηgяєѕαя</button>
+  </div>
+
+  <div id="adminPanel" class="admin-panel hidden">
+    <h2>ℓιѕтα у ρєяƒιℓ ∂є ρєяѕσηαנєѕ :</h2>
+    <pre id="adminData"></pre>
+  </div>
+
+  <script>
+    const characters = [];
+    const mafiaRoles = ["𝖆𝖘𝖊𝖘𝖎𝖓𝖔🔪", "𝒹𝑜𝒸𝓉𝑜𝓇🩺", "ｇｕａｒｄａｅｓｐａｌｄａｓ👤", "ƈʅαɾιʋιԃҽɳƚҽ🔮", "𝚒𝚗𝚘𝚌𝚎𝚗𝚝𝚎💚"];
+    const uniRoles = ["𝕡𝕣𝕠𝕗𝕖𝕤𝕠𝕣👨‍🏫", "𝑒𝓈𝓉𝓊𝒹𝒾𝒶𝓃𝓉𝑒👨‍🎓", "𝔟𝔲𝔩𝔩𝔦𝔢💥", "ɖιɾҽƈƚσɾ👨‍💼", "𝚌𝚘𝚗𝚜𝚎𝚛𝚓𝚎🧽"];
+
+    function getRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function registerCharacter() {
+      const name = document.getElementById('characterName').value.trim();
+      if (!name) return alert("𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙚𝙡 𝙣𝙤𝙢𝙗𝙧𝙚, 𝙥𝙤𝙧 𝙛𝙖𝙫𝙤𝙧");
+
+      const existing = characters.find(c => c.name === name);
+      if (existing) return alert("𝙀𝙨𝙚 𝙥𝙚𝙧𝙨𝙤𝙣𝙖𝙟𝙚 𝙮𝙖 𝙚𝙨𝙩á 𝙤𝙘𝙪𝙥𝙖𝙙𝙤");
+
+      const singleCandidates = characters.filter(c => !c.isMarried);
+      const partner = singleCandidates.length > 0 ? getRandom(singleCandidates) : null;
+
+      const mafiaRole = getRandom(mafiaRoles);
+      const uniRole = getRandom(uniRoles);
+
+      const newCharacter = {
+        name,
+        partner: partner ? partner.name : "αúɳ ɳσ ԃιʂρσɳιႦʅҽ...",
+        mafiaRole,
+        uniRole,
+        isMarried: !!partner
+      };
+
+      if (partner) partner.isMarried = true;
+      characters.push(newCharacter);
+
+      document.getElementById("profile").classList.remove("hidden");
+      document.getElementById("profileName").innerText = newCharacter.name;
+      document.getElementById("partner").innerText = newCharacter.partner;
+      document.getElementById("mafiaRole").innerText = newCharacter.mafiaRole;
+      document.getElementById("uniRole").innerText = newCharacter.uniRole;
+    }
+
+    function loginAdmin() {
+      const pass = document.getElementById('adminPass').value;
+      if (pass === "arribalosfemboys") {
+        document.getElementById("adminPanel").classList.remove("hidden");
+        document.getElementById("adminData").innerText = JSON.stringify(characters, null, 2);
+      } else {
+        alert("𝗰𝗼𝗻𝘁𝗿𝗮𝘀𝗲ñ𝗮 𝗲𝗿𝗿ó𝗻𝗲𝗮 ‼");
+      }
+    }
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAjeNh0YFWNqng--KVhsGJOOG6IM9b_biM",
+      authDomain: "teamm-2d48a.firebaseapp.com",
+      projectId: "teamm-2d48a",
+      storageBucket: "teamm-2d48a.appspot.com",
+      messagingSenderId: "807335506430",
+      appId: "1:807335506430:web:69af4f3e2db8b4bb9350af",
+      measurementId: "G-L55CHH430Z"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+  </script>
+</body>
+</html>
