@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tҽαɱ</title>
   <style>
     body { font-family: Arial, sans-serif; background: #470312; color: #f5f5f5; padding: 2em; }
@@ -16,7 +16,7 @@
   <p>𝓡𝓮𝓰𝓲𝓼𝓽𝓻𝓪𝓽𝓮, 𝓹𝓸𝓻 𝓯𝓪𝓿𝓸𝓻 🖤</p>
 
   <div id="register">
-    <input type="text" id="characterName" placeholder="𝑛𝑜𝑚𝑏𝑟𝑒 𝑑𝑒 𝑡𝑢 𝑝𝑒𝑟𝑠𝑜𝑛𝑎𝑗𝑒">
+    <input type="text" id="characterName" placeholder="🇳​​🇴​​🇲​​🇧​​🇷​​🇪​ ​🇩​​🇪​ ​🇹​​🇺​ ​🇵​​🇪​​🇷​​🇸​​🇴​​🇳​​🇦​​🇯​​🇪">
     <button onclick="registerCharacter()">яєgιѕтяαтє</button>
   </div>
 
@@ -41,60 +41,10 @@
     <pre id="adminData"></pre>
   </div>
 
-  <script>
-    const characters = [];
-    const mafiaRoles = ["𝖆𝖘𝖊𝖘𝖎𝖓𝖔🔪", "𝒹𝑜𝒸𝓉𝑜𝓇🩺", "ｇｕａｒｄａｅｓｐａｌｄａｓ👤", "ƈʅαɾιʋιԃҽɳƚҽ🔮", "𝚒𝚗𝚘𝚌𝚎𝚗𝚝𝚎💚"];
-    const uniRoles = ["𝕡𝕣𝕠𝕗𝕖𝕤𝕠𝕣👨‍🏫", "𝑒𝓈𝓉𝓊𝒹𝒾𝒶𝓃𝓉𝑒👨‍🎓", "𝔟𝔲𝔩𝔩𝔦𝔢💥", "ɖιɾҽƈƚσɾ👨‍💼", "𝚌𝚘𝚗𝚜𝚎𝚛𝚓𝚎🧽"];
-
-    function getRandom(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
-
-    function registerCharacter() {
-      const name = document.getElementById('characterName').value.trim();
-      if (!name) return alert("𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙚𝙡 𝙣𝙤𝙢𝙗𝙧𝙚, 𝙥𝙤𝙧 𝙛𝙖𝙫𝙤𝙧");
-
-      const existing = characters.find(c => c.name === name);
-      if (existing) return alert("𝙀𝙨𝙚 𝙥𝙚𝙧𝙨𝙤𝙣𝙖𝙟𝙚 𝙮𝙖 𝙚𝙨𝙩á 𝙤𝙘𝙪𝙥𝙖𝙙𝙤");
-
-      const singleCandidates = characters.filter(c => !c.isMarried);
-      const partner = singleCandidates.length > 0 ? getRandom(singleCandidates) : null;
-
-      const mafiaRole = getRandom(mafiaRoles);
-      const uniRole = getRandom(uniRoles);
-
-      const newCharacter = {
-        name,
-        partner: partner ? partner.name : "αúɳ ɳσ ԃιʂρσɳιႦʅҽ...",
-        mafiaRole,
-        uniRole,
-        isMarried: !!partner
-      };
-
-      if (partner) partner.isMarried = true;
-      characters.push(newCharacter);
-
-      document.getElementById("profile").classList.remove("hidden");
-      document.getElementById("profileName").innerText = newCharacter.name;
-      document.getElementById("partner").innerText = newCharacter.partner;
-      document.getElementById("mafiaRole").innerText = newCharacter.mafiaRole;
-      document.getElementById("uniRole").innerText = newCharacter.uniRole;
-    }
-
-    function loginAdmin() {
-      const pass = document.getElementById('adminPass').value;
-      if (pass === "arribalosfemboys") {
-        document.getElementById("adminPanel").classList.remove("hidden");
-        document.getElementById("adminData").innerText = JSON.stringify(characters, null, 2);
-      } else {
-        alert("𝗰𝗼𝗻𝘁𝗿𝗮𝘀𝗲ñ𝗮 𝗲𝗿𝗿ó𝗻𝗲𝗮 ‼");
-      }
-    }
-  </script>
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAjeNh0YFWNqng--KVhsGJOOG6IM9b_biM",
@@ -108,6 +58,70 @@
 
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    const mafiaRoles = ["𝖆𝖘𝖊𝖘𝖎𝖓𝖔🔪", "𝒹𝑜𝒸𝓉𝑜𝓇🩺", "ｇｕａｒｄａｅｓｐａｌ𝔡𝔞𝔰👤", "ƈʅαɾιʋιԃҽɳƚҽ🔮", "𝚒𝚗𝚘𝚌𝚎𝚗𝚝𝚎💚"];
+    const uniRoles = ["𝕡𝕣𝕠𝕗𝕖𝕤𝕠𝕣👨‍🏫", "𝑒𝓈𝓉𝓊𝒹𝒾𝒶𝓃𝓉𝑒👨‍🎓", "𝔟𝔲𝔩𝔩𝔦𝔢💥", "ɖιɾҽƈƚσɾ👨‍💼", "𝚌𝚘𝚗𝚜𝚎𝚛𝚓𝚎🧽"];
+
+    function getRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    window.registerCharacter = async function() {
+  const name = document.getElementById('characterName').value.trim();
+  if (!name) return alert("𝙄𝙣𝙜𝙧𝙚𝙨𝙖 𝙚𝙡 𝙣𝙤𝙢𝙗𝙧𝙚, 𝙥𝙤𝙧 𝙛𝙖𝙫𝙤𝙧");
+
+  const snapshot = await getDocs(collection(db, "characters"));
+  const existing = snapshot.docs.find(doc => doc.data().name === name);
+  if (existing) return alert("𝙀𝙨𝙚 𝙥𝙚𝙧𝙨𝙤𝙣𝙖𝙟𝙚 𝙮𝙖 𝙚𝙨𝙩á 𝙤𝙘𝙪𝙥𝙖𝙙𝙤, 𝙥𝙤𝙧 𝙛𝙖𝙫𝙤𝙧 𝙧𝙚𝙜í𝙨𝙩𝙧𝙖𝙩𝙚 𝙘𝙤𝙣 𝙤𝙩𝙧𝙤");
+
+  // Obtener personajes sin pareja
+  const characters = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const singles = characters.filter(c => c.partner === "αúɳ ɳσ ԃιʂρσɳιႦʅҽ..." && c.name !== name);
+
+  let partner = "αúɳ ɳσ ԃιʂρσɳιႦʅҽ...";
+  if (singles.length > 0) {
+    const randomPartner = getRandom(singles);
+    partner = randomPartner.name;
+
+    // Actualizar la pareja del otro personaje
+    const partnerRef = snapshot.docs.find(doc => doc.data().name === randomPartner.name).ref;
+    await partnerRef.update({ partner: name });
+  }
+
+  const mafiaRole = getRandom(mafiaRoles);
+  const uniRole = getRandom(uniRoles);
+
+  const character = { name, partner, mafiaRole, uniRole };
+  await addDoc(collection(db, "characters"), character);
+
+  localStorage.setItem("characterName", name);
+  showProfile(character);
+}
+
+
+    window.loginAdmin = async function() {
+      const pass = document.getElementById('adminPass').value;
+      if (pass === "arribalosfemboys") {
+        const snapshot = await getDocs(collection(db, "characters"));
+        const characters = snapshot.docs.map(doc => doc.data());
+        document.getElementById("adminPanel").classList.remove("hidden");
+        document.getElementById("adminData").innerText = JSON.stringify(characters, null, 2);
+      } else {
+        alert("𝗰𝗼𝗻𝘁𝗿𝗮𝘀𝗲ñ𝗮 𝗲𝗿𝗿ó𝗻𝗲𝗮 ‼");
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", async () => {
+      const savedName = localStorage.getItem("characterName");
+      if (savedName) {
+        const snapshot = await getDocs(collection(db, "characters"));
+        const doc = snapshot.docs.find(d => d.data().name === savedName);
+        if (doc) showProfile(doc.data());
+      }
+    });
+
   </script>
 </body>
 </html>
+
